@@ -64,6 +64,7 @@
   document.addEventListener("click", function (e) {
     var el = e.target.closest("[data-act]"); if (!el) return;
     var a = el.getAttribute("data-act");
+    if (a === "print") { e.preventDefault(); window.print(); return; }
     if (a === "back") { if (history.length > 1) { e.preventDefault(); history.back(); } return; }
     if (a === "refresh") { e.preventDefault(); el.disabled = true; toast("Refreshing data…");
       post("/api/refresh", {}).then(function () { location.reload(); }).catch(function () { toast("Couldn't refresh"); el.disabled = false; });
