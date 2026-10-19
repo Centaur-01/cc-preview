@@ -141,6 +141,70 @@
         box.appendChild(b); }
       found.appendChild(img); found.appendChild(box); found.hidden = false;
     });
+
+    // ---- Scan: the phone camera reads the sticker's QR (Jack 2026-10-18). Native BarcodeDetector
+    // where the browser has it, else the vendored jsQR (vetted + hash-pinned). The QR holds the
+    // store link (".../#<sticker key>"); old stickers resolve through aliases, same as the store.
+    var resolveSticker = function (text) {
+      if (!idx || !text) return null;
+      var key = text.indexOf("#") !== -1 ? decodeURIComponent(text.split("#").pop()) : "";
+      var m = /CC-\d{1,6}/i.exec(text), id = m ? m[0].toUpperCase() : "";
+      var alias = key && idx.aliases ? idx.aliases[key] : "";
+      for (var i = 0; i < idx.items.length; i++) {
+        var r = idx.items[i];
+        if ((id && r[0] === id) || (key && r[7] === key) || (alias && r[7] === alias)) return r;
+      }
+      return null;
+    };
+    window.vkResolveSticker = resolveSticker;
+    var cam = $("#cam"), video = $("#camv"), stream = null, timer = null, canvas = document.createElement("canvas");
+    var stopScan = function () {
+      if (timer) { clearTimeout(timer); timer = null; }
+      if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; }
+      cam.hidden = true; document.body.style.overflow = "";
+    };
+    var gotCode = function (text) {
+      stopScan();
+      var r = resolveSticker(text);
+      if (!r) { toast("That sticker isn't on the list"); return; }
+      digits = r[0].slice(3); render(); find.click();
+    };
+    var detector = null;      // chosen at each Scan tap (native reader if this browser has one, else jsQR)
+    var tick = function () {
+      if (!stream) return;
+      var next = function () { timer = setTimeout(tick, 120); };
+      if (video.readyState < 2) return next();
+      if (detector) {
+        detector.detect(video).then(function (codes) {
+          if (codes && codes.length && codes[0].rawValue) gotCode(codes[0].rawValue); else next();
+        }).catch(function () { detector = null; next(); });
+        return;
+      }
+      if (!window.jsQR) return next();
+      var w = video.videoWidth, h = video.videoHeight, scale = Math.min(1, 720 / Math.max(w, h));
+      canvas.width = Math.round(w * scale); canvas.height = Math.round(h * scale);
+      var ctx2 = canvas.getContext("2d", { willReadFrequently: true });
+      ctx2.drawImage(video, 0, 0, canvas.width, canvas.height);
+      var img2 = ctx2.getImageData(0, 0, canvas.width, canvas.height);
+      var code = window.jsQR(img2.data, img2.width, img2.height, { inversionAttempts: "dontInvert" });
+      if (code && code.data) gotCode(code.data); else next();
+    };
+    $("#scan").addEventListener("click", function () {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        toast("This browser can't open the camera here. Type the number instead."); return; }
+      loadIndex().then(function (j) { if (j) idx = j; });
+      detector = null;
+      try { if (window.BarcodeDetector) detector = new window.BarcodeDetector({ formats: ["qr_code"] }); } catch (e) { detector = null; }
+      cam.hidden = false; document.body.style.overflow = "hidden";
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } }, audio: false }).then(function (st) {
+        stream = st; video.srcObject = st; video.play().catch(function () {}); tick();
+      }).catch(function (err) {
+        stopScan();
+        toast(err && err.name === "NotAllowedError" ? "Camera permission was denied. Type the number instead." :
+              "Couldn't open the camera. Type the number instead.");
+      });
+    });
+    $("#camx").addEventListener("click", stopScan);
   }
 
   // ---------- chart hover (crosshair on lines, per-mark tips on bars) ----------
