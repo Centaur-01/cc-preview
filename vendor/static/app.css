@@ -254,3 +254,10 @@ progress::-moz-progress-bar { background: var(--good); }
 .signin .btn { margin-top: 10px; }
 .mark.big { display: inline-block; width: 48px; height: 48px; border-radius: 14px; margin-bottom: 10px; }
 .err { color: var(--div-down); font-weight: 600; margin: 4px 0 0; }
+
+.report summary { font-weight: 650; color: var(--text); }
+.report form { display: grid; gap: 6px; margin-top: 10px; }
+.report .lbl { font-size: 13px; color: var(--text-2); font-weight: 600; margin-top: 4px; }
+.report select, .report input, .report textarea { font: 16px var(--font); padding: 11px 12px; border-radius: 12px;
+  border: 1px solid var(--line); background: var(--surface-2); color: var(--text); }
+.report .btn { margin-top: 8px; }

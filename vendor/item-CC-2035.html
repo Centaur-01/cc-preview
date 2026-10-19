@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; script-src 'self'; style-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; script-src 'self'; style-src 'self'; connect-src 'self' https://docs.google.com; base-uri 'none'; form-action 'self'">
 <meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sinistcha ex (JP) · Couples Collective</title>
@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="icon" href="static/icon.svg">
 <link rel="stylesheet" href="static/app.css"><script src="static/app.js" defer></script>
-</head><body class="vk" data-page="inventory" data-demo="1" data-index="index.json"><p class="previewbar">Preview of the vendor app · real data, read-only · nothing you tap is saved</p>
+</head><body class="vk" data-page="inventory" data-demo="1" data-index="index.json"><p class="previewbar">Preview of the vendor app · real data · selling and ticks aren't saved · "Report a problem" does send</p>
 <header class="top"><a class="brand" href="index.html"><span class="mark" aria-hidden="true"></span>
 <span>Couples Collective</span><span class="devtag">PREVIEW</span></a>
 <span class="who" title="Signed in">Andy</span></header>
@@ -27,7 +27,16 @@
 <div><dt>Sticker</dt><dd>CC-2035</dd></div>
 <div><dt>On the site since</dt><dd>2026-08-23</dd></div>
 <div><dt>Opens / scans</dt><dd>0</dd></div>
-</dl></section></main>
+</dl></section><section class="card"><details class="report"><summary>Report a problem with this card</summary>
+<form id="reportform" data-card="terastal-festival-ex-019-187-holofoil-ungraded-andy" data-name="Sinistcha ex (JP)" data-set="Terastal Festival ex"
+ data-number="019/187" data-price="2"
+ data-image="https://assets.tcgdex.net/ja/SV/SV8a/019/high.webp" data-url="https://centaur-01.github.io/Pokemon_vendor/#terastal-festival-ex-019-187-holofoil-ungraded-andy" data-source="vendor-app"
+ data-action="https://docs.google.com/forms/d/e/1FAIpQLSeK8PVHGa4ZFtIoGo4DY7HG-FXmoq6x6lCx6APr75aiayAMdQ/formResponse" data-fields="{&quot;type&quot;: &quot;entry.209257252&quot;, &quot;subject&quot;: &quot;entry.1612024118&quot;, &quot;message&quot;: &quot;entry.855797076&quot;, &quot;contact&quot;: &quot;entry.1024344263&quot;}">
+<label class="lbl" for="rpIssue">What's wrong</label><select id="rpIssue"><option>Wrong price</option><option>Wrong image</option><option>Wrong card details (set/number/grade)</option><option>Other</option></select>
+<label class="lbl" for="rpPrice">Better price (optional)</label><input id="rpPrice" inputmode="decimal" placeholder="e.g. 90">
+<label class="lbl" for="rpNote">Details</label><textarea id="rpNote" rows="3" placeholder="What should it be?"></textarea>
+<button class="btn primary wide" type="submit">Send to Rick &amp; Jack</button>
+<p id="rpDone" class="note ok" hidden>Sent. It shows up in the next update.</p></form></details></section></main>
 <nav class="tabs" aria-label="Sections"><a class="tab" href="index.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Home</span></a><a class="tab" href="sell.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16l-1.5 11a2 2 0 0 1-2 1.7h-9A2 2 0 0 1 5.5 18zM9 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Sell</span></a><a class="tab on" href="cards.html" aria-current=page><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h11v14H4zM18 7.5l2 .5-2.8 11.5-2.2-.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Cards</span></a><a class="tab" href="inbox.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h5l1.5 3h5L16 13h5M5 5h14l2 8v6H3v-6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Inbox</span></a><a class="tab" href="more.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>More</span></a></nav>
 <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 <div id="offline" class="offline" hidden></div>

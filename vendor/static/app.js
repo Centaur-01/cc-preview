@@ -170,6 +170,31 @@
     bar.addEventListener("pointerleave", function () { tip.hidden = true; });
   });
 
+  // Report a problem: the SAME Google Form + message format as the live store's "Suggest a fix"
+  // (index.html sendReport), so pulse_qa form-fixes reads it with no change. Works in preview too:
+  // Jack 2026-10-18 wants Andy able to report from the vendor side "just like the old way".
+  var rf = $("#reportform");
+  if (rf) rf.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var d = rf.dataset, issue = $("#rpIssue").value, sp = ($("#rpPrice").value || "").replace(/[^0-9.]/g, "");
+    var note = ($("#rpNote").value || "").trim(), f = JSON.parse(d.fields);
+    var body = "A card fix was suggested from the vendor app.\n\n---\ntype: card-fix\ncard_id: " + d.card +
+      "\nname: " + d.name + "\nset: " + d.set + "\nnumber: " + d.number + "\nissue: " + issue +
+      "\ncurrent_price: " + d.price + "\nsuggested_price: " + sp + "\ncurrent_image: " + (d.image || "(none)") +
+      "\nurl: " + d.url + "\nsource: " + d.source + "\n---\n\n" + (note || "(no details provided)") + "\n";
+    var fd = new FormData();
+    fd.append(f.type, "card-fix");
+    fd.append(f.subject, "[CARD-FIX] " + issue + " — " + d.name + " (" + d.card + ")");
+    fd.append(f.message, body);
+    fd.append(f.contact, "(none)");                 // the form's contact field is REQUIRED (empty = silent 400)
+    var btn = rf.querySelector("button"); btn.disabled = true;
+    fetch(d.action, { method: "POST", mode: "no-cors", body: fd }).then(function () {
+      rf.querySelectorAll("select,input,textarea,button").forEach(function (x) { x.hidden = true; });
+      rf.querySelectorAll(".lbl").forEach(function (x) { x.hidden = true; });
+      $("#rpDone").hidden = false;
+    }).catch(function () { btn.disabled = false; toast("Couldn't send — check your signal and try again"); });
+  });
+
   // sign-in (authenticator code): JSON + X-VK like every other write, so a cross-site form can't post it
   var lf = $("#loginform");
   if (lf) lf.addEventListener("submit", function (e) {
