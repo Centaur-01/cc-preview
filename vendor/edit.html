@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; script-src 'self'; style-src 'self'; connect-src 'self' https://docs.google.com; base-uri 'none'; form-action 'self'">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Edit cards · Couples Collective</title>
+<meta name="theme-color" content="#e11d48">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="static/icon.svg">
+<link rel="stylesheet" href="static/app.css"><script src="static/app.js" defer></script><link rel="stylesheet" href="static/edit.css"><script src="static/edit.js" defer></script>
+</head><body class="vk" data-page="inventory" data-demo="1" data-index="index.json"><p class="previewbar">Preview of the vendor app · real data · selling and ticks aren't saved · "Report a problem" does send</p>
+<header class="top"><a class="brand" href="index.html"><span class="mark" aria-hidden="true"></span>
+<span>Couples Collective</span><span class="devtag">PREVIEW</span></a>
+<span class="who" title="Signed in">Andy</span></header>
+<main class="wrap wide">
+<section class="hero"><h1>Edit cards <span class="mockpill">MOCK</span></h1>
+<p class="muted">Sort and filter any way you like: it only changes what you see. Every change is saved to that
+card's Item ID, so nothing can slide onto another card. <b>This mock saves nothing.</b></p></section>
+<div class="eg-controls">
+<form class="search" role="search" id="eg-search"><input id="eg-q" placeholder="Search name, set, number or CC-…" inputmode="search" autocomplete="off">
+<select id="eg-sort" aria-label="Sort"><option value="site:-1">On site: high to low</option><option value="site:1">On site: low to high</option>
+<option value="yours:-1">Your price first</option><option value="name:1">Name A–Z</option>
+<option value="id:1">Item ID</option></select></form>
+<div class="chips wrapchips" id="eg-status"><button type="button" class="chip on" data-status="for_sale">For sale</button><button type="button" class="chip" data-status="hidden">Not listed</button>
+<button type="button" class="chip" data-status="sold">Sold</button><button type="button" class="chip" data-status="all">All</button>
+<button type="button" class="chip" id="eg-mine" aria-pressed="false">Only cards I've changed</button>
+<select id="eg-owner" class="chipsel" aria-label="Owner"><option value="">All owners</option></select></div>
+<p class="muted small" id="eg-count">Loading cards…</p></div>
+<section class="card eg-wrap" id="grid" data-src="grid.json"></section>
+<div id="eg-more" class="eg-more" aria-hidden="true"></div>
+<div id="eg-bar" class="eg-bar" hidden><span id="eg-bar-n"></span><button type="button" class="btn sm ghost" id="eg-discard">Discard</button>
+<button type="button" class="btn sm primary" id="eg-review">Review</button></div>
+<dialog id="eg-ed" class="eg-dlg"><form method="dialog" id="eg-ed-form"><div class="eg-dlg-h"><div class="rn" id="eg-ed-name"></div>
+<div class="rs" id="eg-ed-sub"></div></div><div class="eg-dlg-b">
+<label>Your price ($)<input id="eg-f-yours" inputmode="decimal" autocomplete="off" placeholder="blank = use our price"></label>
+<label>Better name<input id="eg-f-better" autocomplete="off" placeholder="optional"></label>
+<label>Notes (just for you)<textarea id="eg-f-notes" rows="2"></textarea></label>
+<label class="eg-tick"><input type="checkbox" id="eg-f-sold"> Sold</label>
+<label class="eg-tick"><input type="checkbox" id="eg-f-onsite"> On site</label></div>
+<div class="eg-dlg-f"><button type="button" class="btn ghost" id="eg-ed-cancel">Cancel</button><button class="btn primary" value="ok">Done</button></div></form></dialog>
+<dialog id="eg-rev" class="eg-dlg"><form method="dialog"><div class="eg-dlg-h"><div class="rn">Your changes</div></div>
+<div class="eg-dlg-b"><ol id="eg-rev-list" class="eg-rev"></ol><p class="muted small">In the real app, Save writes each line to your sheet,
+finding the row by its Item ID, never by where the row sits.</p></div>
+<div class="eg-dlg-f"><button class="btn ghost" value="close">Keep editing</button><button class="btn primary" value="save">Save to sheet</button></div></form></dialog></main>
+<nav class="tabs" aria-label="Sections"><a class="tab" href="index.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Home</span></a><a class="tab" href="sell.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16l-1.5 11a2 2 0 0 1-2 1.7h-9A2 2 0 0 1 5.5 18zM9 7V5a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Sell</span></a><a class="tab on" href="cards.html" aria-current=page><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h11v14H4zM18 7.5l2 .5-2.8 11.5-2.2-.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Cards</span></a><a class="tab" href="inbox.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h5l1.5 3h5L16 13h5M5 5h14l2 8v6H3v-6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Inbox</span></a><a class="tab" href="more.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>More</span></a></nav>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<div id="offline" class="offline" hidden></div>
+</body></html>

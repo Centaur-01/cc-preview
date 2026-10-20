@@ -291,3 +291,7 @@ progress::-moz-progress-bar { background: var(--good); }
   .card, .tile { box-shadow: none; border-color: #ccc; break-inside: avoid; }
   .wrap { max-width: none; }
 }
+/* PKM-024 mock links (2026-10-20): shared by Cards, More and Edit */
+.mockpill { display: inline-block; vertical-align: middle; font: 700 10px var(--font); letter-spacing: .06em;
+  padding: 3px 7px; border-radius: 999px; background: var(--warn-soft); color: var(--text-2); }
+.lnk { color: var(--accent); font-weight: 600; }
