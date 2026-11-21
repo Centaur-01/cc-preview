@@ -295,3 +295,60 @@ progress::-moz-progress-bar { background: var(--good); }
 .mockpill { display: inline-block; vertical-align: middle; font: 700 10px var(--font); letter-spacing: .06em;
   padding: 3px 7px; border-radius: 999px; background: var(--warn-soft); color: var(--text-2); }
 .lnk { color: var(--accent); font-weight: 600; }
+
+/* Dialogs, shared by the edit grid and the PKM-026 sale sheet (moved from edit.css 2026-11-20) */
+.eg-dlg { border: 0; padding: 0; border-radius: var(--r); width: min(520px, calc(100vw - 24px));
+  background: var(--surface); color: var(--text); box-shadow: 0 10px 40px rgba(0,0,0,.25); }
+.eg-dlg::backdrop { background: rgba(20,20,19,.45); }
+.eg-dlg-h { padding: 16px 18px 6px; } .eg-dlg-h .rn, .eg-dlg-h .rs { white-space: normal; }
+.eg-dlg-b { padding: 8px 18px; display: grid; gap: 12px; max-height: 60vh; overflow: auto; }
+.eg-dlg-b label { display: grid; gap: 5px; font-size: 13px; font-weight: 600; color: var(--text-2); }
+.eg-dlg-b input:not([type=checkbox]), .eg-dlg-b textarea { font: 16px var(--font); padding: 10px 12px; border-radius: 10px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--text); width: 100%; }
+.eg-dlg-b label.eg-tick { display: flex; align-items: center; gap: 10px; font-size: 16px; color: var(--text); }
+.eg-tick input { width: 22px; height: 22px; accent-color: var(--accent); }
+.eg-dlg-f { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 18px 16px; }
+.eg-dlg-b select { font: 16px var(--font); padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--text); width: 100%; }
+.sale-hint { margin: 0; font-size: 13px; color: var(--danger, #b91c1c); }
+.sale-tot { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 10px 0 2px; font-size: 14px; color: var(--text-2); }
+.sale-tot b { color: var(--text); }
+
+/* ---- Dark wood (Jack 2026-11-20: "japanese influenced natural dark wood ... 'moody'", "the color is good",
+   "we want this live on all sites"). The live store's palette, always on: tokens set on body.vk outrank the
+   light/dark tokens on :root for everything inside the app. The mark is the vendor's brand file (mark.png via
+   vendorkit.brand), with the old gradient underneath for a vendor that has none. -------------------------- */
+body.vk {
+  color-scheme: dark;
+  --bg: #120e0b; --surface: #241b15; --surface-2: #2f241c; --line: #47382b;
+  --text: #ede3d1; --text-2: #c4b498; --text-3: #8c7a63;
+  --accent: #b0412f; --accent-ink: #fff7ec; --accent-soft: rgba(176,65,47,.22);
+  --good: #a9b77e; --good-soft: rgba(92,107,60,.25); --warn-soft: rgba(212,173,102,.14);
+  --series-1: #d4ad66; --div-up: #a9b77e; --div-down: #e08872; --chart-surface: #1b1511;
+  --grid: #3a2d23; --shadow: 0 1px 2px rgba(0,0,0,.5), 0 6px 18px -8px rgba(0,0,0,.7);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(120% 60% at 50% -8%, rgba(212,173,102,.12), transparent 62%),
+    repeating-linear-gradient(90deg, transparent 0 279px, rgba(0,0,0,.34) 279px 281px),
+    repeating-linear-gradient(91deg, rgba(255,232,205,.02) 0 1px, transparent 1px 7px, rgba(0,0,0,.09) 7px 8px, transparent 8px 19px);
+  background-attachment: fixed;
+}
+body.vk .mark { background: url("mark.png") center / cover, linear-gradient(135deg, var(--accent), #d4ad66);
+  width: 26px; height: 26px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,.5); }
+body.vk .mark.big { width: 48px; height: 48px; border-radius: 10px; }
+body.vk .previewbar { color: #1b1511; background: linear-gradient(90deg, #e6c47f, #d4ad66); }
+
+/* Desktop mice (Jack 2026-11-20, "can you make scroll bars for desktop?"): the sideways chip rows and the edit grid
+   show a slim, always-visible bar where the pointer is a mouse or trackpad (see store.css for the why of the reset). */
+@media (hover: hover) and (pointer: fine) {
+  .chips, .eg-wrap { scrollbar-width: auto; }
+  .chips { padding-bottom: 10px; }
+  .chips::-webkit-scrollbar, .eg-wrap::-webkit-scrollbar { display: block; height: 10px; }
+  .chips::-webkit-scrollbar-track, .eg-wrap::-webkit-scrollbar-track { background: var(--surface-2); border-radius: 999px; }
+  .chips::-webkit-scrollbar-thumb, .eg-wrap::-webkit-scrollbar-thumb { background: var(--text-3); border-radius: 999px; border: 2px solid var(--surface-2); }
+  body.vk :is(.chips, .eg-wrap)::-webkit-scrollbar-thumb { background: rgba(212,173,102,.6); }
+  body.vk :is(.chips, .eg-wrap)::-webkit-scrollbar-thumb:hover { background: rgba(212,173,102,.9); }
+  @supports not selector(::-webkit-scrollbar) {
+    .chips, .eg-wrap { scrollbar-width: thin; scrollbar-color: rgba(212,173,102,.6) var(--surface-2); }
+  }
+}
