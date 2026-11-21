@@ -7,11 +7,14 @@
   background: var(--surface); color: var(--text); }
 button.chip { cursor: pointer; font-family: var(--font); }
 .eg-wrap { padding: 0; overflow-x: auto; }
-@media (min-width: 1100px) { .eg-wrap { overflow: visible; } }
+/* 2026-11-20 postmortem: the header sat over row 2 between 760 and 1099 px (Jack, with Andy watching).
+   Under 1100 px .eg-wrap scrolls sideways, which makes IT the sticky box, so "top: 110px" pushed the
+   header 110 px down inside the table. Sticky now lives only where the wrap doesn't scroll. */
+@media (min-width: 1100px) { .eg-wrap { overflow: visible; } table.eg th { position: sticky; top: 110px; z-index: 5; } }
 
 /* laptop: the table */
 table.eg { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14px; }
-table.eg th { position: sticky; top: 110px; z-index: 5; background: var(--surface); text-align: left;
+table.eg th { background: var(--surface); text-align: left;
   border-bottom: 1px solid var(--line); padding: 0; white-space: nowrap; }
 table.eg th:first-child { border-top-left-radius: var(--r); } table.eg th:last-child { border-top-right-radius: var(--r); }
 .eg-sort { all: unset; display: block; cursor: pointer; padding: 11px 10px; font: 600 12px var(--font);

@@ -70,7 +70,7 @@
       if (x === null) return 1; if (y === null) return -1;          // blanks always last
       if (x < y) return -d; if (x > y) return d; return a.id < b.id ? -1 : 1;
     });
-    var words = { site: "On site price", ours: "Our price", yours: "Your price", name: "Name", id: "Item ID",
+    var words = { site: "On site price", ours: "Market price", yours: "Your price", name: "Name", id: "Item ID",
                   grade: "Grade", owner: "Owner", sold: "Sold", onsite: "On site", notes: "Notes" };
     $("#eg-count").textContent = view.length.toLocaleString() + " cards · sorted by " + (words[k] || k) +
       (d < 0 ? " ↓" : " ↑") + " · sorting never moves a change to another card";
@@ -78,8 +78,8 @@
   }
 
   // ---------- render ----------
-  var hasOurs = true;                                   // the static preview carries no engine price
-  var COLS = [["id", "Item ID"], ["name", "Card"], ["grade", "Grade"], ["owner", "Owner"], ["ours", "Our price", "num"],
+  var hasOurs = true;                                   // "ours" = the engine price, shown as Market price (Jack 2026-11-20)
+  var COLS = [["id", "Item ID"], ["name", "Card"], ["grade", "Grade"], ["owner", "Owner"], ["ours", "Market price", "num"],
               ["yours", "Your price", "num"], ["site", "On site $", "num"], ["sold", "Sold", "c"], ["onsite", "On site", "c"],
               ["notes", "Notes"]];
   function render(reset) {
@@ -138,7 +138,7 @@
     t.appendChild(el("div", "rs dim", tags.join(" · "))); a.appendChild(t);
     var p = el("div", "rp", r.status === "sold" ? "Sold" : money(r.site));
     if (val(r, "yours") !== null) p.appendChild(el("small", "eg-yours", "yours " + money(val(r, "yours"))));
-    else if (hasOurs) p.appendChild(el("small", "", "ours " + money(r.ours)));
+    if (hasOurs) p.appendChild(el("small", "", "market " + money(r.ours)));     // always beside his (Jack 2026-11-20)
     a.appendChild(p);
     return a;
   }
@@ -166,7 +166,7 @@
   function openEditor(id) {
     var r = byId[id], dlg = $("#eg-ed"); editing = id;
     $("#eg-ed-name").textContent = val(r, "better") || r.name;
-    $("#eg-ed-sub").textContent = r.id + " · " + r.sub + (r.grade ? " · " + r.grade : "") + (hasOurs ? " · our price " + money(r.ours) : "") +
+    $("#eg-ed-sub").textContent = r.id + " · " + r.sub + (r.grade ? " · " + r.grade : "") + (hasOurs ? " · market price " + money(r.ours) : "") +
       " · on site " + (r.status === "sold" ? "sold" : money(r.site));
     var y = val(r, "yours"); $("#eg-f-yours").value = y === null ? "" : y;
     $("#eg-f-better").value = val(r, "better") || ""; $("#eg-f-notes").value = val(r, "notes") || "";

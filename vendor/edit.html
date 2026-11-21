@@ -15,11 +15,13 @@
 <main class="wrap wide">
 <section class="hero"><h1>Edit cards <span class="mockpill">MOCK</span></h1>
 <p class="muted">Sort and filter any way you like: it only changes what you see. Every change is saved to that
-card's Item ID, so nothing can slide onto another card. <b>This mock saves nothing.</b></p></section>
+card's Item ID, so nothing can slide onto another card. <b>This mock saves nothing.</b></p>
+<p class="muted small"><b>Market price</b> = what our pricing engine found from recent sales. <b>On site $</b> = your price
+or the market price, <b>whichever is higher</b>. No price of yours = the market price.</p></section>
 <div class="eg-controls">
 <form class="search" role="search" id="eg-search"><input id="eg-q" placeholder="Search name, set, number or CC-…" inputmode="search" autocomplete="off">
 <select id="eg-sort" aria-label="Sort"><option value="site:-1">On site: high to low</option><option value="site:1">On site: low to high</option>
-<option value="yours:-1">Your price first</option><option value="name:1">Name A–Z</option>
+<option value="ours:-1">Market price: high to low</option><option value="yours:-1">Your price first</option><option value="name:1">Name A–Z</option>
 <option value="id:1">Item ID</option></select></form>
 <div class="chips wrapchips" id="eg-status"><button type="button" class="chip on" data-status="for_sale">For sale</button>
 <button type="button" class="chip" data-status="sold">Sold</button><button type="button" class="chip" data-status="all">All</button>
@@ -32,7 +34,7 @@ card's Item ID, so nothing can slide onto another card. <b>This mock saves nothi
 <button type="button" class="btn sm primary" id="eg-review">Review</button></div>
 <dialog id="eg-ed" class="eg-dlg"><form method="dialog" id="eg-ed-form"><div class="eg-dlg-h"><div class="rn" id="eg-ed-name"></div>
 <div class="rs" id="eg-ed-sub"></div></div><div class="eg-dlg-b">
-<label>Your price ($)<input id="eg-f-yours" inputmode="decimal" autocomplete="off" placeholder="blank = use our price"></label>
+<label>Your price ($)<input id="eg-f-yours" inputmode="decimal" autocomplete="off" placeholder="blank = use the market price"></label>
 <label>Better name<input id="eg-f-better" autocomplete="off" placeholder="optional"></label>
 <label>Notes (just for you)<textarea id="eg-f-notes" rows="2"></textarea></label>
 <label class="eg-tick"><input type="checkbox" id="eg-f-sold"> Sold</label>
