@@ -9,6 +9,9 @@
      never quite repeats. A drop leaves three gold hairline rings that open and fade over about 7 s.
    - SHOWER: between the drops, a very light rain: one tiny single-ring droplet every half step (about two a
      second) at Halton(5,7) points, gone in 2.6 s (Jack: "almost like its raining, but just a VERY light shower").
+   - PHONES (Jack 2026-11-20: on mobile "its all covered by the cards"): on touch devices the rings fall IN FRONT
+     of the page, like rain on a window (z-index 40: above the cards and sticky bars, below an opened card at 50),
+     and a drop opens where you tap. Glow and motes stay behind. Desktop keeps everything behind the cards.
    - PULSE: the lamp glow at the top breathes once per bar (about a calm breath).
    - DAINTY: a few gold motes drift up through the lamplight, twinkling on golden-ratio phases.
 
@@ -44,6 +47,17 @@
   const root = el("position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;contain:strict");
   root.setAttribute("aria-hidden", "true");
   document.body.prepend(root);
+
+  // Where the rings live. Desktop: behind the cards with the rest (gaps and margins show them). Touch devices:
+  // the two-column grid leaves no gaps, so the rings get their own layer in front of the page, under any opened
+  // card (both stores: sticky bars <= 30, card page / sheet = 50). It never takes a tap.
+  const TOUCH = matchMedia("(hover: none) and (pointer: coarse)").matches;
+  let ringLayer = root;
+  if (TOUCH) {
+    ringLayer = el("position:fixed;inset:0;z-index:40;pointer-events:none;overflow:hidden;contain:strict");
+    ringLayer.setAttribute("aria-hidden", "true");
+    document.body.append(ringLayer);
+  }
 
   // the pulse: a lamp-glow layer breathing once per bar, on the same clock as everything else
   const glow = el("position:absolute;inset:0;opacity:.35;" +
@@ -89,20 +103,23 @@
   function pool(n, size, alphaOf) {
     return Array.from({ length: n }, (_, i) => {
       const r = el(`position:absolute;left:0;top:0;width:${size}px;height:${size}px;margin:${-size / 2}px 0 0 ${-size / 2}px;` +
-                   `border-radius:50%;border:1px solid rgba(${GOLD},${alphaOf(i).toFixed(3)});opacity:0`);
-      root.append(r);
+                   `border-radius:50%;border:1.5px solid rgba(${GOLD},${alphaOf(i).toFixed(3)});opacity:0`);
+      ringLayer.append(r);
       return { el: r, size, anim: null };
     });
   }
   function open(ring, x, y, radius, duration, delay) {
     if (ring.anim) ring.anim.cancel();
     const at = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`, s1 = ((2 * radius) / ring.size).toFixed(3);
-    ring.anim = ring.el.animate([{ transform: `${at} scale(.02)`, opacity: 1 }, { transform: `${at} scale(${s1})`, opacity: 0 }],
+    // holds most of its brightness for the first third, then fades (a straight fade read as "too subtle")
+    ring.anim = ring.el.animate([{ transform: `${at} scale(.02)`, opacity: 1 }, { opacity: 0.8, offset: 0.35 },
+                                 { transform: `${at} scale(${s1})`, opacity: 0 }],
                                 { duration, delay, easing: "cubic-bezier(.22,.61,.36,1)", fill: "both" });
   }
   const BIG = 220, SMALL = 160, DROP_RINGS = 3;
-  const dropPool = pool(8 * DROP_RINGS, 2 * BIG, i => 0.16 - (i % DROP_RINGS) * 0.045);   // 8 drops can overlap
-  const rainPool = pool(10, 128, () => 0.15);
+  // strengths: first shipped at .16/.115/.07 and .15; Jack: "a little too sutble, the riples" -> about double
+  const dropPool = pool(8 * DROP_RINGS, 2 * BIG, i => 0.34 - (i % DROP_RINGS) * 0.09);    // 8 drops can overlap
+  const rainPool = pool(10, 128, () => 0.3);
 
   // ripples: on each onset, three hairline rings open from the drop and fade
   let drops = 0, step = 0;
@@ -121,6 +138,17 @@
          30 + ((sprinkles * PHI) % 1) * 34, 2600, 0);
   }
   setInterval(() => { if (!document.hidden) sprinkle(); }, STEP / 2);
+
+  // touch: a drop where the finger lands (two quick rings), except on an opened card, which stays clean
+  if (TOUCH) {
+    const tapPool = pool(8, 180, i => 0.42 - (i % 2) * 0.16);
+    let taps = 0;
+    addEventListener("pointerdown", e => {
+      if (e.pointerType !== "touch" || (e.target.closest && e.target.closest("#modal, #cmodal, .sheet, dialog"))) return;
+      for (let k = 0; k < 2; k++) open(tapPool[(taps * 2 + k) % tapPool.length], e.clientX, e.clientY, 58 + k * 26, 1500, k * 140);
+      taps += 1;
+    }, { passive: true });
+  }
   setInterval(() => {
     const beat = step % PATTERN.length;
     step += 1;
